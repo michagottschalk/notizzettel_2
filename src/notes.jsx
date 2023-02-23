@@ -9,6 +9,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 function Note() {
   const [toDo, setToDo] = useState([]);
   const [inputText, setInputText] = useState("");
+  const [check, setCheck] = useState(false);
 
   //const cleanToDo = () => setToDo("");
   //   setToDo([...toDo, { task: e.target.firstChild.value }]);
@@ -26,6 +27,17 @@ function Note() {
     setInputText("");
   };
 
+  function deleteTask(index) {
+    //setToDo(toDo.splice(index, 1));
+    setToDo((oldValues) => {
+      return oldValues.filter((_, i) => i !== index); // nachfragen, was diese Zeile/Funktion eigentlich macht
+    });
+  }
+
+  function checkTask(index) {
+    setCheck(!check);
+  }
+
   return (
     <div className="Black_field">
       <form className="Form" action="" onSubmit={handleSubmit}>
@@ -40,15 +52,22 @@ function Note() {
       </form>
       <ul>
         {toDo.map((task, index) => (
-          <div className="newTask" key={index}>
+          <div
+            className={check === true ? "taskchecked" : "newTask"}
+            key={index}
+          >
             <div className="task">{task}</div>
-            <span id="delete" className="task" onclick="deleteTask(event)">
+            <span
+              id="delete"
+              className="task"
+              onClick={() => deleteTask(index)}
+            >
               <FontAwesomeIcon icon={faTrash} />
             </span>
-            <span id="edit" className="task" onClick="editTask(event)">
+            <span id="edit" className="task">
               <FontAwesomeIcon icon={faEdit} />
             </span>
-            <span id="check" className="task" onClick="checkTask(event)">
+            <span id="check" className="task" onClick={() => checkTask(index)}>
               <FontAwesomeIcon icon={faCheck} />
             </span>
           </div>
