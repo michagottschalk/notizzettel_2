@@ -30,6 +30,7 @@ function Note() {
     <div className="Black_field">
       <form className="Form" action="" onSubmit={handleSubmit}>
         <input
+          className="inputfield"
           type="text"
           placeholder="Neue Aufgabe"
           value={inputText}

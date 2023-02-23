@@ -51,6 +51,8 @@ input {
   background-color: var(--color-back);
   border-radius: 0.1rem;
   border: 0.1rem solid var(--color-font);
+  color: var(--color-font);
+  padding-left: 1em;
 }
 
 button {
@@ -138,4 +140,14 @@ button:active {
   padding: 5% 0% 5% 0%;
   font-size: 0.9em;
   border-bottom: 0.1rem solid var(--color-font);
+}
+
+.inputfield:focus {
+  transition: all 0.3s;
+  outline: 0.1rem solid #f2cf1d;
+}
+
+.inputfield:focus {
+  transition: all 0.3s;
+  outline: 0.1rem solid #f2cf1d;
 }
