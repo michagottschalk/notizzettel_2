@@ -1,12 +1,9 @@
-
-import Notes from './notes';
-
+import Note from "./notes";
 
 function App() {
   return (
     <div className="App">
-      
-      <Notes />
+      <Note />
     </div>
   );
 }
