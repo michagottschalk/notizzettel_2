@@ -8,31 +8,39 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 function Note() {
   const [toDo, setToDo] = useState([]);
+  const [inputText, setInputText] = useState("");
 
-  // function handleSubmit(e) {
-  //   e.preventDefault();
+  //const cleanToDo = () => setToDo("");
   //   setToDo([...toDo, { task: e.target.firstChild.value }]);
-  //   e.target.firstChild.value = "";
-  // }
 
-  const handleSubmit = (e) => {
+  const handleChange = (e) => {
+    const newValue = e.target.value;
+    setInputText(newValue);
+  };
+
+  const handleSubmit = (e, value) => {
     e.preventDefault();
+    console.log(value);
     if (!e.target.firstChild.value) return;
     setToDo((prev) => [...prev, e.target.firstChild.value]);
+    setInputText("");
   };
 
   return (
     <div className="Black_field">
       <form className="Form" action="" onSubmit={handleSubmit}>
-        <input type="text" placeholder="Neue Aufgabe" />
+        <input
+          type="text"
+          placeholder="Neue Aufgabe"
+          value={inputText}
+          onChange={handleChange}
+        />
         <button tabIndex="2">Hinzufügen</button>
       </form>
       <ul>
         {toDo.map((task, index) => (
-          <div className="newTask">
-            <div className="task" key={index}>
-              {task}
-            </div>
+          <div className="newTask" key={index}>
+            <div className="task">{task}</div>
             <span id="delete" className="task" onclick="deleteTask(event)">
               <FontAwesomeIcon icon={faTrash} />
             </span>
