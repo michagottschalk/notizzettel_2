@@ -10,9 +10,7 @@ function Note() {
   const [toDo, setToDo] = useState([]);
   const [inputText, setInputText] = useState("");
   const [check, setCheck] = useState(false);
-
-  //const cleanToDo = () => setToDo("");
-  //   setToDo([...toDo, { task: e.target.firstChild.value }]);
+  const [disabled, setDisabled] = useState(true);
 
   const handleChange = (e) => {
     const newValue = e.target.value;
@@ -23,19 +21,34 @@ function Note() {
     e.preventDefault();
     console.log(value);
     if (!e.target.firstChild.value) return;
-    setToDo((prev) => [...prev, e.target.firstChild.value]);
+    setToDo([...toDo, e.target.firstChild.value]);
+    //setToDo((prev) => [...prev, e.target.firstChild.value]);
     setInputText("");
   };
 
   function deleteTask(index) {
-    //setToDo(toDo.splice(index, 1));
+    //setToDo(toDo.splice(index, 1)); //this mutates the array! also, does not work on the first element
     setToDo((oldValues) => {
-      return oldValues.filter((_, i) => i !== index); // nachfragen, was diese Zeile/Funktion eigentlich macht
+      return oldValues.filter((_, i) => i !== index); // nachfragen oder recherchieren, was diese Zeile/Funktion eigentlich macht
     });
   }
 
-  function checkTask(index) {
-    setCheck(!check);
+  function checkTask(event) {
+    setCheck(!check); // simple toggler
+    event.currentTarget.parentElement.classList.toggle("taskchecked");
+    // setToDo(
+    //   toDo.map(
+    //     (task, i) => (i === index ? console.log("yes") : console.log("no")) //SAME!!! changes ALL list items!!!!
+    //   )
+    // );
+  }
+
+  function editTask(event) {
+    setDisabled(!disabled);
+    // if (disabled === true) {
+    event.currentTarget.parentElement.firstChild.focus(); //this does not work during rendering, or, respectively, it does it when the field is disabled
+    //}
+    toDo.setState({ value: event.target.value });
   }
 
   return (
@@ -52,11 +65,17 @@ function Note() {
       </form>
       <ul>
         {toDo.map((task, index) => (
-          <div
-            className={check === true ? "taskchecked" : "newTask"}
+          <li
+            //className={check === true ? "taskchecked" : "newTask"}  //this changes ALl list items!!!
+            className="newTask"
             key={index}
+            status="false"
           >
-            <div className="task">{task}</div>
+            <input
+              className="description"
+              value={task}
+              disabled={disabled ? "disabled" : ""}
+            ></input>
             <span
               id="delete"
               className="task"
@@ -64,13 +83,13 @@ function Note() {
             >
               <FontAwesomeIcon icon={faTrash} />
             </span>
-            <span id="edit" className="task">
+            <span id="edit" className="task" onClick={editTask}>
               <FontAwesomeIcon icon={faEdit} />
             </span>
-            <span id="check" className="task" onClick={() => checkTask(index)}>
+            <span id="check" className="task" onClick={checkTask}>
               <FontAwesomeIcon icon={faCheck} />
             </span>
-          </div>
+          </li>
         ))}
       </ul>
     </div>
